@@ -68,9 +68,11 @@ if exist(folder, 'dir')==7 % Check that the folder exists
     
     % Runs and saves the vl, spec, and mspec variables in the
     % workspace
+    vr = vmhighpass('auto','Raw');
+    vh = vmhighpass('auto');
     vl = vmlfp('auto');
     [spec, mspec] = lfpspec(vl);
-    save(strcat(folder,'/lfpspec',""),'vl','spec','mspec')
+    save(strcat(folder,'/lfpspec',""),'vl','vr','vh','spec','mspec')
     
     % Generates the spectrogram and CC plot and saves it for each
     % channel
