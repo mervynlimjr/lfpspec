@@ -28,7 +28,7 @@ for n = 1:vl.data.numSets % trial number
     idx = (tIdx(1)-(1000/1000*1000)):(tIdx(1)-(501/1000*1000)); %Inter-trial interval data (-1000ms to -500ms)
     data = vl.data.analogData(idx);
     datam = mean(data);
-    [S,F,T,P]=spectrogram(data-datam,200,150,512,1000,'yaxis');
+    [S,~,~,P]=spectrogram(data-datam,200,150,512,1000,'yaxis');
     
     %     Normalization parameters of the NP
     Pmean=mean(P,2); %mean power density of each frequency bin
@@ -46,18 +46,43 @@ for n = 1:vl.data.numSets % trial number
     % trial psd and spectrogram normalised to NP
     spec(n).Pnorm=(spec(n).P-Pmean)./Pstd;
     spec(n).Snorm=(spec(n).S-Smean)./Sstd;
+    % reframe the time windows to include information about pre-trial data
+    spec(n).T=(-0.5:0.05:spec(n).T(end)-0.6);
     
-    %     Computes correlation coefficients for each trial
-    CCmean=mean(spec(n).Pnorm,2); %mean power density of each frequency spectrum of trials
-    Pdiff=zeros((size(spec(n).Pnorm,1)),(size(spec(n).Pnorm,2))); % Initialises Pdiff
+    % =========================================================================
+    
+    %     Computes correlation coefficients for each trial without overlap
+    %     in the time windows
+    
+    %     Spectrogram data for the 'normalisation period NP'
+    idx = (tIdx(1)-(1000/1000*1000)):(tIdx(1)-(501/1000*1000)); %Inter-trial interval data (-1000ms to -500ms)
+    data = vl.data.analogData(idx);
+    datam = mean(data);
+    [~,~,~,P]=spectrogram(data-datam,200,0,512,1000,'yaxis');
+    
+    %     Normalization parameters of the NP
+    Pmean=mean(P,2); %mean power density of each frequency bin
+    Pstd=std(P,0,2); %standard deviation of each frequency bin
+    
+    %     Spectrogram data for trials
+    idx = (tIdx(1)-(500/1000*1000)):tIdx(3); %Trial data including the pre-trial data of -500ms
+    data = vl.data.analogData(idx);
+    datam = mean(data);
+    [~,cc.F,~,cc.P]=spectrogram(data-datam,200,0,512,1000,'yaxis');
+    
+    % trial psd and spectrogram normalised to NP
+    cc.Pnorm=(cc.P-Pmean)./Pstd;
+   
+    CCmean=mean(cc.Pnorm,2); %mean power density of each frequency spectrum of trials
+    Pdiff=zeros((size(cc.Pnorm,1)),(size(cc.Pnorm,2))); % Initialises Pdiff
 
-    for r=1:size(spec(n).Pnorm,1)
+    for r=1:size(cc.Pnorm,1)
         % Difference at each time point with the mean power density for that frequency
-        Pdiff(r,:)=spec(n).Pnorm(r,:)-CCmean(r);
+        Pdiff(r,:)=cc.Pnorm(r,:)-CCmean(r);
     end
     
-    for r=1:size(spec(n).Pnorm,1)
-        for c=1:size(spec(n).Pnorm,1)
+    for r=1:size(cc.Pnorm,1)
+        for c=1:size(cc.Pnorm,1)
             %Correlation coefficient for each frequency band
             spec(n).cc(r,c)=sum(Pdiff(r,:).*Pdiff(c,:))/...
                 sqrt(sum(Pdiff(r,:).*Pdiff(r,:),2)*sum(Pdiff(c,:).*Pdiff(c,:),2));
@@ -93,8 +118,9 @@ end
 mspec.T=(-0.5:0.05:7);
 mspec.F=spec.F;
 
-% Compute the correlation coefficients between frequencies for each
-% averaged spectrogram data
+% Compute the correlation coefficients between frequencies for the averaged spectrogram data
+% Note: there are overlapping windows in the averaged spectrogram
+
 Pmean=mean(mspec.Pnorm,2); %mean power density of each frequency spectrum
 Pdiff=zeros((size(mspec.Pnorm,1)),(size(mspec.Pnorm,2))); % Initialises Pdiff
 

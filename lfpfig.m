@@ -32,7 +32,8 @@ if type=="spec"
     for n=number
         subplot(3,3,plot);
         S=surf(spec(n).T,spec(n).F,spec(n).Pnorm,'EdgeColor','none');
-        axis xy; axis([0 inf 0 150]); colormap(jet); view(0,90);
+        axis xy; axis([-0.5 inf 0 150]); colormap(jet); view(0,90); caxis([-10 10]);
+        set(gca,'FontSize',6); xticks(-0.5:0.5:spec(n).T(end)); yticks(0:10:150);
         title(strcat("Normalised Spectrogram of Trial:",string(n)));
         plot=plot+1;
     end
@@ -55,14 +56,14 @@ if type=="spec"
     for n=number
         subplot(3,3,plot);
         cc=heatmap(spec(n).F,flipud(spec(n).F),flipud(spec(n).cc),...
-            'XLimits',{0,148.43750},'YLimits',{148.43750,0},...
-            'XDisplayLabels',(round(spec.F)),'YDisplayLabels',(flipud(round(spec.F))),...
+            'XLimits',{0,150.39063},'YLimits',{150.39063,0},...
+            'XDisplayLabels',(round(spec(n).F)),'YDisplayLabels',(flipud(round(spec(n).F))),...
             'XLabel','Frequency (Hz)','YLabel','Frequency (Hz)','FontSize',6,...
             'Colormap', jet,'ColorLimits',[-0.2,0.7],'ColorbarVisible','on',...
             'Title',strcat("Correlation coefficients of Trial:",string(n)));
         plot=plot+1;
     end
-end
+end         
 
 % =========================================================================
 
@@ -80,8 +81,8 @@ if type=="mspec"
     
     % Plot lines to mark the cue presentation period
     hold on
-    line([0 0],[0 150],[10 10; 10 10],'Color','k');
-    line([1 1],[0 150],[10 10; 10 10],'Color','k');
+    line([0 0],[0 150],[100 100; 100 100],'Color','k');
+    line([1 1],[0 150],[100 100; 100 100],'Color','k');
     hold off
     
     subplot(2,2,3); % Plots the CC plot
