@@ -5,7 +5,7 @@ function [S,cc] = lfpfig(spec, varargin)
 %   Inputs: lfpfig(spec,type,number)
 %   (1) spec = spectrogram stucture where spec.Pnorm contains the normalised
 %   PSD data and spec.cc contains the correlation coefficient data
-%   (2) type = "spec" or "mspec", indicating structure consists of individual
+%   (2) type = 'spec' or 'mspec', indicating structure consists of individual
 %   trials, or one structure averaged across all trials
 %   (3) number = [] array consisting of the individual trial
 %   numbers to plot if spec is a structure consisting of individual trials
@@ -21,7 +21,7 @@ narginchk(1,3);
 type=varargin{1};
 
 % =========================================================================
-
+    
 % If structure type is the individual trials
 if type=="spec"
     number=varargin{2};
@@ -34,7 +34,7 @@ if type=="spec"
         S=surf(spec(n).T,spec(n).F,spec(n).Pnorm,'EdgeColor','none');
         axis xy; axis([-0.5 inf 0 150]); colormap(jet); view(0,90); caxis([-10 10]);
         set(gca,'FontSize',6); xticks(-0.5:0.5:spec(n).T(end)); yticks(0:10:150);
-        title(strcat("Normalised Spectrogram of Trial:",string(n)));
+        title(strcat('Normalised Spectrogram of Trial:',string(n)));
         plot=plot+1;
     end
     
@@ -60,7 +60,7 @@ if type=="spec"
             'XDisplayLabels',(round(spec(n).F)),'YDisplayLabels',(flipud(round(spec(n).F))),...
             'XLabel','Frequency (Hz)','YLabel','Frequency (Hz)','FontSize',6,...
             'Colormap', jet,'ColorLimits',[-0.2,0.7],'ColorbarVisible','on',...
-            'Title',strcat("Correlation coefficients of Trial:",string(n)));
+            'Title',strcat('Correlation coefficients of Trial:',string(n)));
         plot=plot+1;
     end
 end         
@@ -76,7 +76,7 @@ if type=="mspec"
     surf(spec.T,spec.F,spec.Pnorm,'EdgeColor','none');
     axis xy; axis([-0.5 inf 0 150]); colormap(jet); view(0,90); caxis([-3 3]);
     set(gca,'FontSize',6); xticks(-0.5:0.5:7); yticks(0:10:150);
-    title("Normalised PSD averaged for all trials",'FontSize',10);
+    title('Normalised PSD averaged for all trials','FontSize',10);
     colorbar;
     
     % Plot lines to mark the cue presentation period
