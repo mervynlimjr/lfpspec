@@ -2,7 +2,7 @@
 % LFP script to run the functions vmlfp, lfpspec and lfpfig across different
 % directories/ sessions
 
-for sessionname=["20180927","20180928"]
+for sessionname=["20180925", "20180924", "20180921", "20180920", "20180919", "20180918", "20180917"]
     sessionno="session01";
     
     for array=1:4
@@ -72,15 +72,17 @@ if exist(folder, "dir")==7 % Check that the folder exists
     % workspace
     vl = vmlfp("auto");
     [spec, mspec] = lfpspec(vl);
-    save(strcat(folder,"/lfpspec",""),"vl","spec","mspec")
     
-    % Generates the spectrogram and CC plot and saves it for each
-    % channel
-    lfpfig(mspec,"mspec");
-    sgtitle(strcat("chn00",string(channel),""));
-    saveas(gcf,strcat(folder,"/lfpspec_",channelname,".png",""))
-    close
-    delete("lfpspec.png");
+    if ~isempty(mspec.Pnorm)==1
+        save(strcat(folder,"/lfpspec",""),"vl","spec","mspec")
+        
+        % Generates the spectrogram and CC plot and saves it for each
+        % channel
+        lfpfig(mspec,"mspec");
+        sgtitle(strcat("chn00",string(channel),""));
+        saveas(gcf,strcat(folder,"/lfpspec_",channelname,".png",""))
+        close
+    end
 else
     mspec.Pnorm=[]; mspec.Snorm=[]; mspec.F=[]; mspec.T=[]; mspec.cc=[];
 end

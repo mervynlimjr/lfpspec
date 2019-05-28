@@ -21,7 +21,7 @@ narginchk(1,3);
 type=varargin{1};
 
 % =========================================================================
-
+    
 % If structure type is the individual trials
 if type=="spec"
     number=varargin{2};
