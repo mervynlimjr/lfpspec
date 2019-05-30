@@ -2,7 +2,7 @@
 % LFP script to run the functions vmlfp, lfpspec and lfpfig across different
 % directories/ sessions
 
-for sessionname=["20180925", "20180924", "20180921", "20180920", "20180919", "20180918", "20180917"]
+for sessionname=["20180914","20180913"]
     sessionno="session01";
     
     for array=1:4
