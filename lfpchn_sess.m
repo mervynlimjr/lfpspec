@@ -3,18 +3,16 @@
 % consistency of the channel spectrograms over dates
 
 % Dropbox user folder
-userfol="mervyn";
+userfol="AlizarinMoon";
 
 % Initialises session, channels, subplot variables
 sessionno="session01";
 arrayname="array01";
-sessiondate={'20180917','20180918','20180919','20180921','20180924','20180925',...
-    '20180927','20180928','20181001','20181004','20181005','20181008','20181009',...
-    '20181010','20181011','20181016','20181017'};
-subplotrow=6;
+sessiondate=["20180221","20180312","20180323","20180402","20180404","20180416","20180625","20180704","20180807","20180824","20180913","20181001"];
+subplotrow=4;
 subplotcolumn=3;
 
-for channel=[34,38,40,43,45,47,51,56,59,72,76,89,92,93,119,120]
+for channel=6
     
     % Initialises channel name
     if numel(num2str(channel))==1

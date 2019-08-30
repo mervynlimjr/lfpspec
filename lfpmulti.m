@@ -4,9 +4,9 @@
 
 % Initialises session, channels, subplot variables
 sessionno="session01";
-arrayname="array01";
-sessiondate={'20180917','20180918','20180919','20180921'};
-channel=6;
+arrayname="array02";
+sessiondate={'20181017','20180917','20180807','20180625'};
+channel=43;
 
 % Initialises channel name
 if numel(num2str(channel))==1
@@ -20,24 +20,24 @@ end
 % -------------------------------------------------------------------------
 % Creates a new structure which stores the relevant data for the channel in
 % each different session
-
-for sessionname=sessiondate
-    % change directory to each day
-    cd (strcat('/Volumes/Hippocampus/Data/picasso/',sessionname,'/',sessionno,""));
-    % load pre-instantiated um
-    load("unitymaze.mat");
-    % retrieve the data for the required channel
-    chn.(strcat("Date_",sessionname,"")).um=um;
-    % clear existing data
-    clear um;
-    
-    % change directory to the channel directory
-    cd (strcat('/Volumes/Hippocampus/Data/picasso/',sessionname,'/',sessionno,'/',arrayname,"/",channelname,""));
-    % generate vr, vh, and vl
-    chn.(strcat("Date_",sessionname,"")).vl=vmlfp('auto');
-    chn.(strcat("Date_",sessionname,"")).vr=vmhighpass('auto','Raw');
-    chn.(strcat("Date_",sessionname,"")).vh=vmhighpass('auto');
-end
+% 
+% for sessionname=sessiondate
+%     % change directory to each day
+%     cd (strcat('/Volumes/Hippocampus/Data/picasso/',sessionname,'/',sessionno,""));
+%     % load pre-instantiated um
+%     load("unitymaze.mat");
+%     % retrieve the data for the required channel
+%     chn.(strcat("Date_",sessionname,"")).um=um;
+%     % clear existing data
+%     clear um;
+%     
+%     % change directory to the channel directory
+%     cd (strcat('/Volumes/Hippocampus/Data/picasso/',sessionname,'/',sessionno,'/',arrayname,"/",channelname,""));
+%     % generate vr, vh, and vl
+%     chn.(strcat("Date_",sessionname,"")).vl=vmlfp('auto');
+%     chn.(strcat("Date_",sessionname,"")).vr=vmhighpass('auto','Raw');
+%     chn.(strcat("Date_",sessionname,"")).vh=vmhighpass('auto');
+% end
 
 % -------------------------------------------------------------------------
 % Brute force through InspectGUI to look at up to 4 different channels/
