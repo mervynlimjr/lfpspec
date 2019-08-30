@@ -2,7 +2,7 @@
 % LFP script to run the functions vmlfp, lfpspec and lfpfig across different
 % directories/ sessions
 
-for sessionname=["20180824","20180817","20180814","20180810","20180808","20180807","20180704","20180628","20180625"]
+for sessionname=["20180430","20180427","20180426","20180424","20180419","20180416","20180412","20180410","20180406","20180404","20180402","20180328","20180322","20180314","20180226","20180221","20180201","20180125","20180123"]
     sessionno="session01";
     
     for array=1:4
@@ -12,42 +12,42 @@ for sessionname=["20180824","20180817","20180814","20180810","20180808","2018080
         % Runs the conglomerated function for each channel in each array;
         % switch for speed
         switch array
-            case 1 % array 1
-                for channel=1:32
-                    %saves the variables and the individual plots for each channel
-                    mspec=lfparray(arrayname,channel,sessionname,sessionno);
-                    arrayspec(channel)=mspec;
-                end
-                lfpfigarray(arrayname,arrayspec,1:32,sessionname,sessionno);  %creates the combined array plot
-                
+%             case 1 % array 1
+%                 for channel=1:32
+%                     %saves the variables and the individual plots for each channel
+%                     mspec=lfparray(arrayname,channel,sessionname,sessionno);
+%                     arrayspec(channel)=mspec;
+%                 end
+%                 lfpfigarray(arrayname,arrayspec,1:32,sessionname,sessionno);  %creates the combined array plot
+%                 
             case 2 % array 2
-                for channel=33:64
+                for channel=43
                     %saves the variables and the individual plots for each channel
                     mspec=lfparray(arrayname,channel,sessionname,sessionno);
-                    arrayspec(channel)=mspec;
+%                     arrayspec(channel)=mspec;
                 end
-                lfpfigarray(arrayname,arrayspec,33:64,sessionname,sessionno);  %creates the combined array plot
+%                 lfpfigarray(arrayname,arrayspec,33:64,sessionname,sessionno);  %creates the combined array plot
                 
-            case 3 % array 3
-                for channel=65:96
-                    %saves the variables and the individual plots for each channel
-                    mspec=lfparray(arrayname,channel,sessionname,sessionno);
-                    arrayspec(channel)=mspec;
-                end
-                lfpfigarray(arrayname,arrayspec,65:96,sessionname,sessionno);  %creates the combined array plot
-                
-            case 4 % array 4
-                for channel=97:128
-                    %saves the variables and the individual plots for each channel
-                    mspec=lfparray(arrayname,channel,sessionname,sessionno);
-                    arrayspec(channel)=mspec;
-                end
-                lfpfigarray(arrayname,arrayspec,97:128,sessionname,sessionno);  %creates the combined array plot
+%             case 3 % array 3
+%                 for channel=65:96
+%                     %saves the variables and the individual plots for each channel
+%                     mspec=lfparray(arrayname,channel,sessionname,sessionno);
+%                     arrayspec(channel)=mspec;
+%                 end
+%                 lfpfigarray(arrayname,arrayspec,65:96,sessionname,sessionno);  %creates the combined array plot
+%                 
+%             case 4 % array 4
+%                 for channel=97:128
+%                     %saves the variables and the individual plots for each channel
+%                     mspec=lfparray(arrayname,channel,sessionname,sessionno);
+%                     arrayspec(channel)=mspec;
+%                 end
+%                 lfpfigarray(arrayname,arrayspec,97:128,sessionname,sessionno);  %creates the combined array plot
         end
     end
     
-    save(strcat("/Volumes/Hippocampus/Data/picasso/",sessionname,"/",sessionno,"/arrayspec",""),"arrayspec") % saves the arrayspec data in the session folder
-    
+%     save(strcat("/Volumes/Hippocampus/Data/picasso/",sessionname,"/",sessionno,"/arrayspec",""),"arrayspec") % saves the arrayspec data in the session folder
+    chn43.(strcat("Date_",sessionname,""))=mspec;
 end
 % -------------------------------------------------------------------------
 

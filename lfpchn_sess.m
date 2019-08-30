@@ -2,13 +2,17 @@
 % one channel across different sessions at the same time to look for
 % consistency of the channel spectrograms over dates
 
-% Initialises session and channels
-for channel=[6,11,17,21,26,30]
-    
-    sessionno="session01";
-    arrayname="array01";
-    sessionname = {'20181001', '20181004', '20181005', '20181008', '20181009',...
-        '20181010','20181011', '20181015', '20181016', '20181017', '20181022', '20181026'};
+% Dropbox user folder
+userfol="AlizarinMoon";
+
+% Initialises session, channels, subplot variables
+sessionno="session01";
+arrayname="array01";
+sessiondate=["20180221","20180312","20180323","20180402","20180404","20180416","20180625","20180704","20180807","20180824","20180913","20181001"];
+subplotrow=4;
+subplotcolumn=3;
+
+for channel=6
     
     % Initialises channel name
     if numel(num2str(channel))==1
@@ -21,10 +25,9 @@ for channel=[6,11,17,21,26,30]
     
     % Creates a new structure which stores the relevant data for the channel in
     % each different session
-    for sessionname=sessionname
+    for sessionname=sessiondate
         % change directory to each day
-        folder=strcat("/Volumes/Hippocampus/Data/picasso/",sessionname,"/",sessionno,"");
-        cd(folder)
+        cd(strcat("/Volumes/Hippocampus/Data/picasso/",sessionname,"/",sessionno,""))
         % load the combined matrix for all channels
         load('arrayspec.mat');
         % retrieve the data for the required channel
@@ -40,12 +43,12 @@ for channel=[6,11,17,21,26,30]
     figure("Position", get(0, "Screensize"))
     subplotno=1;
     
-    for sessionname=sessionname
+    for sessionname=sessiondate
         % Initialises subplot
-        subplot(4,3,subplotno);
+        subplot(subplotrow,subplotcolumn,subplotno);
         
         % Generates subplot for spectrogram
-        surf(chn029.(strcat("Date_",sessionname,"")).T,chn029.(strcat("Date_",sessionname,"")).F,chn029.(strcat("Date_",sessionname,"")).Pnorm,"EdgeColor","none");
+        surf(chn.(strcat("Date_",sessionname,"")).T,chn.(strcat("Date_",sessionname,"")).F,chn.(strcat("Date_",sessionname,"")).Pnorm,"EdgeColor","none");
         axis xy; axis([-0.5 inf 0 150]); colormap(jet); view(0,90); caxis([-3 3]);
         title(strcat("session",string(sessionname),""),"FontSize",6);
         set(gca,"FontSize",6);
@@ -63,7 +66,7 @@ for channel=[6,11,17,21,26,30]
     sgtitle(strcat("Normalised PSD averaged for all trials in each session for ",channelname,""),"FontSize",12);
     
     % Save the figure
-    saveas(gcf,strcat("/Users/AlizarinMoon/Dropbox/MATLAB/Hippocampal LFP Research/Theta/",channelname,"_spec.png",""))
+    saveas(gcf,strcat("/Users/",userfol,"/Dropbox/MATLAB/Hippocampal LFP Research/Theta/",channelname,"_spec.png",""))
     close
     
     % -------------------------------------------------------------------------
@@ -72,14 +75,14 @@ for channel=[6,11,17,21,26,30]
     figure("Position", get(0, "Screensize"))
     subplotno=1;
     
-    for sessionname=sessionname
+    for sessionname=sessiondate
         % Initialises subplot
-        subplot(4,3,subplotno);
+        subplot(subplotrow,subplotcolumn,subplotno);
         
         % Generates subplot for cc plot
-        heatmap(chn029.(strcat("Date_",sessionname,"")).F,flipud(chn029.(strcat("Date_",sessionname,"")).F),flipud(chn029.(strcat("Date_",sessionname,"")).cc),...
+        heatmap(chn.(strcat("Date_",sessionname,"")).F,flipud(chn.(strcat("Date_",sessionname,"")).F),flipud(chn.(strcat("Date_",sessionname,"")).cc),...
             "XLimits",{0,148.43750},"YLimits",{148.43750,0},...
-            "XDisplayLabels",(round(chn029.(strcat("Date_",sessionname,"")).F)),"YDisplayLabels",(flipud(round(chn029.(strcat("Date_",sessionname,"")).F))),...
+            "XDisplayLabels",(round(chn.(strcat("Date_",sessionname,"")).F)),"YDisplayLabels",(flipud(round(chn.(strcat("Date_",sessionname,"")).F))),...
             "Colormap", jet,"ColorLimits",[-0.2,0.7],"ColorbarVisible","on",...
             "Title",strcat("session",string(sessionname),""),"FontSize",5);
         subplotno=subplotno+1;
@@ -88,9 +91,11 @@ for channel=[6,11,17,21,26,30]
     sgtitle(strcat("CC plot averaged for all trials in each session for ",channelname,""),"FontSize",12);
     
     % Save the figure
-    saveas(gcf,strcat("/Users/AlizarinMoon/Dropbox/MATLAB/Hippocampal LFP Research/Theta/",channelname,"_cc.png",""))
+    saveas(gcf,strcat("/Users/",userfol,"/Dropbox/MATLAB/Hippocampal LFP Research/Theta/",channelname,"_cc.png",""))
     close
     
+    % Delete the structure array
+    clear chn;
 end
 
 % -------------------------------------------------------------------------
