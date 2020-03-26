@@ -5,7 +5,7 @@
 userfol="/Volumes/Users/mervyn";
 
 for date="20181001"
-    session="session01";
+    session="sessioneye";
     
     for arrayno=1:4
         % Initialises array name
@@ -45,7 +45,7 @@ for date="20181001"
     end
 end
 
-save(strcat(userfol,'/Dropbox/MATLAB/Hippocampal LFP Research/',date,"/",date,"_mspecdat.mat"),"mspecdat")
+save(strcat(userfol,'/Dropbox/MATLAB/Hippocampal LFP Research/',date,"/",date,"_seseye_mspecdat.mat"),"mspecdat")
     
 % -------------------------------------------------------------------------
 
@@ -75,7 +75,7 @@ if exist(folder, "dir")==7 % Check that the folder exists
     
     % creates a folder for the channel
     cd(strcat(userfol,'/Dropbox/MATLAB'))
-    mkdir(strcat(userfol,'/Dropbox/MATLAB/Hippocampal LFP Research/',date,'/',channel))
+    mkdir(strcat(userfol,'/Dropbox/MATLAB/Hippocampal LFP Research/',date,'/seseye/',channel))
     
     % Generate the lfp time-domain data (Frequency 0-150Hz)
     cd(folder)
@@ -84,7 +84,7 @@ if exist(folder, "dir")==7 % Check that the folder exists
     % ===============================================================
     %plot the signal average
     signalaverage(vl, [2 10], [-25 25])
-    saveas(gcf,strcat(userfol,'/Dropbox/MATLAB/Hippocampal LFP Research/',date,'/',channel,'/signalaverage_',date,'_',channel,'.png'))
+    saveas(gcf,strcat(userfol,'/Dropbox/MATLAB/Hippocampal LFP Research/',date,'/seseye/',channel,'/signalaverage_',date,'_',channel,'.png'))
     close
     
     % ===============================================================
@@ -130,7 +130,7 @@ if exist(folder, "dir")==7 % Check that the folder exists
     
     plotspec(mrawspec,-0.9,7,1,50,-3,3);
     % save the raw spectrogram plot
-    saveas(gcf,strcat(userfol,'/Dropbox/MATLAB/Hippocampal LFP Research/',date,'/',channel,'/PSD_rawspec_',date,'_',channel,'.png'))
+    saveas(gcf,strcat(userfol,'/Dropbox/MATLAB/Hippocampal LFP Research/',date,'/seseye/',channel,'/PSD_rawspec_',date,'_',channel,'.png'))
     close
     
     % ===============================================================
@@ -140,11 +140,11 @@ if exist(folder, "dir")==7 % Check that the folder exists
     mspec1 = mnormspec(vl,"normal","norm",[-1000 -501]);
     %spectrogram plot
     plotspec(mspec1,-0.9,7,1,50,c1,c2);
-    saveas(gcf,strcat(userfol,'/Dropbox/MATLAB/Hippocampal LFP Research/',date,'/',channel,'/BLnorm_-1000to-501_PSD_',date,'_',channel,'.png'))
+    saveas(gcf,strcat(userfol,'/Dropbox/MATLAB/Hippocampal LFP Research/',date,'/seseye/',channel,'/BLnorm_-1000to-501_PSD_',date,'_',channel,'.png'))
     close
     %power spectrum
     [mspec1.Pnorm1, mspec1.Pnorm2, mspec1.Pnorm3, mspec1.Pnorm4]=powerspectrum(mspec1,1,30,ps1,ps2);
-    saveas(gcf,strcat(userfol,'/Dropbox/MATLAB/Hippocampal LFP Research/',date,'/',channel,'/BLnorm_-1000to-501_PS_',date,'_',channel,'.png'))
+    saveas(gcf,strcat(userfol,'/Dropbox/MATLAB/Hippocampal LFP Research/',date,'/seseye/',channel,'/BLnorm_-1000to-501_PS_',date,'_',channel,'.png'))
     close
     
     % ===============================================================
@@ -152,18 +152,18 @@ if exist(folder, "dir")==7 % Check that the folder exists
     mspec=mnormspec(vl,"log");
     plotspec(mspec,-0.9,7,1,50,c1,c2);
     % save the raw spectrogram plot
-    saveas(gcf,strcat(userfol,'/Dropbox/MATLAB/Hippocampal LFP Research/',date,'/',channel,'/PSD_normspec',date,'_',channel,'.png'))
+    saveas(gcf,strcat(userfol,'/Dropbox/MATLAB/Hippocampal LFP Research/',date,'/seseye/',channel,'/PSD_normspec',date,'_',channel,'.png'))
     close
     
     % baseline correction from period -500 to -1
     mspec=mnormspec(vl,"log","baseline",[-500 -1]);
     % Plot the spectrogram
     plotspec(mspec,-0.9,7,1,50,c1,c2);
-    saveas(gcf,strcat(userfol,'/Dropbox/MATLAB/Hippocampal LFP Research/',date,'/',channel,'/baseline_-500to-1_PSD_',date,'_',channel,'.png'))
+    saveas(gcf,strcat(userfol,'/Dropbox/MATLAB/Hippocampal LFP Research/',date,'/seseye/',channel,'/baseline_-500to-1_PSD_',date,'_',channel,'.png'))
     close
     % Average the power spectrum across defined epochs
     powerspectrum(mspec,1,30,ps1,ps2);
-    saveas(gcf,strcat(userfol,'/Dropbox/MATLAB/Hippocampal LFP Research/',date,'/',channel,'/baseline_-500to-1_PS_',date,'_',channel,'.png'))
+    saveas(gcf,strcat(userfol,'/Dropbox/MATLAB/Hippocampal LFP Research/',date,'/seseye/',channel,'/baseline_-500to-1_PS_',date,'_',channel,'.png'))
     close
     
 else
